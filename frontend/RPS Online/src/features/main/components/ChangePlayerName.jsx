@@ -3,13 +3,13 @@ export default function ChangePlayerName() {
     <div>
         <h2 className="text-2xl font-bold mb-4">Change Player Name</h2>
         <form className="flex flex-col gap-4">
-            <label htmlFor="playerName" className="text-lg">New Player Name:</label>
+            <label htmlFor="playerName" className="text-lg">Player Name:</label>
             <input
             type="text"
             id="playerName"
             name="playerName"
             className="border border-gray-300 rounded p-2"
-            placeholder="Enter player name"
+            placeholder="Player Name"
             />
             <button
             type="submit"

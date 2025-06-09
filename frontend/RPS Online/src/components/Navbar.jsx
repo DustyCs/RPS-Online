@@ -9,7 +9,7 @@ export default function Navbar() {
             <ul className="flex space-x-6">
                 <li className="text-3xl font-bold"><a href="/play">Play</a></li>
                 <li className="text-3xl font-bold"><a href="/about">About</a></li>
-                <li className="text-3xl font-bold"><a href="/about">Credits</a></li>
+                <li className="text-3xl font-bold"><a href="/credits">Credits</a></li>
             </ul>
         </nav>
     </div>
