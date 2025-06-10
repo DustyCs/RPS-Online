@@ -2,7 +2,7 @@ export default function Navbar() {
   return (
     <div className="w-full h-16 bg-gray-800 shadow-2xl gap-15 text-white p-4 flex justify-center items-center">
         <div>
-            <h1 className="text-4xl font-extrabold">RPS Online</h1>
+            <h1 className="text-4xl font-extrabold cursor-pointer" onClick={() => window.location.href = "/"}>RPS Online</h1>
             <p className="text-sm pl-5">Rock, Paper, Scissors</p>
         </div>
         <nav >

@@ -16,6 +16,7 @@ export default function PlayerInterface() {
 
     const FistIMG = Fist
     const [selectedChoice, setSelectedChoice] = useState(null);
+    const [enemyChoice, setEnemyChoice] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -28,14 +29,14 @@ export default function PlayerInterface() {
 
   return (
     <>  
-        <div className={loading ? 'flex items-center bg-amber-50 justify-center w-full h-full' : 'relative flex items-center bg-amber-50 justify-center w-full h-full'}>
+        <div className={loading ? 'flex items-center bg-amber-50 justify-center w-full h-full' : 'relative flex items-center bg-amber-50 justify-center w-full h-full shadow-lg'}>
                     <motion.div className={'absolute bottom-20'}
                         initial={{ x: 0, y: 0 }}
                         animate={ loading 
                         ? { x:0 , y: 0 } 
                         : { x:-300 ,y: -100 }}
                         transition={{ duration: 0.5, ease: 'easeOut' }}>
-                        <motion.img src={FistIMG} alt="" 
+                        <motion.img src={selectedChoice === null ? FistIMG : selectedChoice.img} alt="" 
                             initial={{ rotate: 0 }}
                             animate={ loading 
                                 ? { rotate: 360 } 
@@ -50,7 +51,11 @@ export default function PlayerInterface() {
                                     ? { duration: 1, repeat: Infinity, ease: 'easeOut' } 
                                     : { duration: 0.3, ease: 'easeOut' } 
                                 }
-                            className={ 'w-50 h-50 ' + (loading ? 'rotate-0' : 'rotate-90') } 
+                            className={ 'w-50 h-50 ' + (loading 
+                                ? 'rotate-0'
+                                : selectedChoice === null
+                                    ? 'rotate-90' 
+                                : selectedChoice.name === 'Rock' ? 'rotate-0' :'rotate-90') } 
                     />
                     </motion.div>
                     {/* Enemy Hand Mirrored */}
@@ -60,18 +65,18 @@ export default function PlayerInterface() {
                             ? { x: 0 , y: 0 } 
                             : { x: 300 , y: -100 }}
                         transition={{ duration: 0.5, ease: 'easeOut' }}>
-                        <motion.img src={FistIMG} alt="" 
+                        <motion.img src={ FistIMG } alt="" 
                             initial={{ rotate: 0, scaleX: -1 }}
                             animate={ loading 
                                 ? { rotate: -360 } 
-                                : selectedChoice === null
+                                : enemyChoice === null
                                     ? { rotate: [0, -90, 0] } 
                                     : { rotate: 0 } 
                                 }
                             transition={ 
                                 loading 
                                 ? { duration: 1, repeat: Infinity, ease: 'linear' } 
-                                : selectedChoice === null
+                                : enemyChoice === null
                                     ? { duration: 1, repeat: Infinity, ease: 'easeOut' } 
                                     : { duration: 0.3, ease: 'easeOut' }
                                 }
@@ -79,7 +84,7 @@ export default function PlayerInterface() {
                     />
                     </motion.div>
         </div>
-        <div className=' flex w-1/2 items-center justify-center h-[25%] bg-gray-300 '>  
+        <div className=' flex w-1/2 items-center justify-center h-[25%] bg-gray-300 rounded-b-md outline-amber-50 outline-2 '>  
             {
                 loading ? (
                     <div>
