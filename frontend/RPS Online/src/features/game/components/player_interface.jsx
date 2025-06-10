@@ -28,36 +28,58 @@ export default function PlayerInterface() {
 
   return (
     <>  
-        <div className={loading ? 'flex items-center bg-amber-600 justify-center w-full h-full' : 'relative flex items-center bg-amber-400 justify-center w-full h-full'}>
+        <div className={loading ? 'flex items-center bg-amber-50 justify-center w-full h-full' : 'relative flex items-center bg-amber-50 justify-center w-full h-full'}>
                     <motion.div className={'absolute bottom-20'}
                         initial={{ x: 0, y: 0 }}
-                        animate={ loading ? { x:0 , y: 0 } : { x:-300 ,y: -100 }}>
+                        animate={ loading 
+                        ? { x:0 , y: 0 } 
+                        : { x:-300 ,y: -100 }}
+                        transition={{ duration: 0.5, ease: 'easeOut' }}>
                         <motion.img src={FistIMG} alt="" 
                             initial={{ rotate: 0 }}
-                            animate={ loading ? { rotate: 360 } : { rotate: 0 }}
+                            animate={ loading 
+                                ? { rotate: 360 } 
+                                : selectedChoice === null
+                                    ? { rotate: [0, -90, 0] } 
+                                    : { rotate: 0 } 
+                                }
                             transition={ 
                                 loading 
                                 ? { duration: 1, repeat: Infinity, ease: 'linear' } 
-                                : { duration: 0.3, ease: 'easeOut' }}
+                                : selectedChoice === null
+                                    ? { duration: 1, repeat: Infinity, ease: 'easeOut' } 
+                                    : { duration: 0.3, ease: 'easeOut' } 
+                                }
                             className={ 'w-50 h-50 ' + (loading ? 'rotate-0' : 'rotate-90') } 
                     />
                     </motion.div>
                     {/* Enemy Hand Mirrored */}
                     <motion.div className={'absolute bottom-20'}
                         initial={{ x: 0, y: 0 }}
-                        animate={ loading ? { x:0 , y: 0 } : { x:300 ,y: -100 }}>
+                        animate={ loading 
+                            ? { x: 0 , y: 0 } 
+                            : { x: 300 , y: -100 }}
+                        transition={{ duration: 0.5, ease: 'easeOut' }}>
                         <motion.img src={FistIMG} alt="" 
                             initial={{ rotate: 0, scaleX: -1 }}
-                            animate={ loading ? { rotate: -360 } : { rotate: 0 }}
+                            animate={ loading 
+                                ? { rotate: -360 } 
+                                : selectedChoice === null
+                                    ? { rotate: [0, -90, 0] } 
+                                    : { rotate: 0 } 
+                                }
                             transition={ 
                                 loading 
                                 ? { duration: 1, repeat: Infinity, ease: 'linear' } 
-                                : { duration: 0.3, ease: 'easeOut' }}
+                                : selectedChoice === null
+                                    ? { duration: 1, repeat: Infinity, ease: 'easeOut' } 
+                                    : { duration: 0.3, ease: 'easeOut' }
+                                }
                             className={ 'w-50 h-50 ' + (loading ? 'rotate-0' : '-rotate-90') } 
                     />
                     </motion.div>
         </div>
-        <div className=' flex w-1/2 items-center justify-center h-[25%] bg-amber-50 '>  
+        <div className=' flex w-1/2 items-center justify-center h-[25%] bg-gray-300 '>  
             {
                 loading ? (
                     <div>
