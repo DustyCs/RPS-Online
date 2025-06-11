@@ -1,10 +1,10 @@
 import express from 'express';
+import dotenv from 'dotenv';
 import cors from 'cors';
 import helmet from 'helmet';
-import './database'; // Ensure database connection is established
+import './database'; // Initialize database connection
 import { MainRouter } from './routes';
 import cookieParser from 'cookie-parser';
-import dotenv from 'dotenv';
 
 dotenv.config();
 

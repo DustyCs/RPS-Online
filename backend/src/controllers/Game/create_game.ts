@@ -11,7 +11,7 @@ export const createGame = async (req: Request, res: Response): Promise<void> => 
         }
 
         const newGame = new Game({
-            player1,
+            player1
         });
 
         await newGame.save();
