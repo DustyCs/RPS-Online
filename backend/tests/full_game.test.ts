@@ -63,12 +63,12 @@ describe('RPS Game API', () => {
     expect(response.status).toBe(404);
   });
 
-  it('should return 403 if player is not part of the game', async () => { // cant find game rn since id is not found
+  it('should return 403 if player is not part of the game', async () => {
     const game = new Game({ player1: 'Alice', player2: 'Bob' });
     await game.save();
 
     const response = await request(app)
-      .post('/game/api/move')
+      .post('/api/game/move')
       .send({ gameId: game._id, player: 'Eve', choice: 'rock' });
 
     expect(response.status).toBe(403);

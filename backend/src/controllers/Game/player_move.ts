@@ -38,6 +38,7 @@ export const playerMove = async (req: Request, res: Response): Promise<void> => 
     }
     else {
         res.status(403).json({ message: "You are not part of this game" });
+        return;
     }   
     await game.save();
 
