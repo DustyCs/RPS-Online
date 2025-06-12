@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 
 export const createGame = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { player1 } = req.body;
+        const { player1, gameName } = req.body;
 
         if (!player1) {
             res.status(400).json({ error: 'A player is required.' });
@@ -11,7 +11,8 @@ export const createGame = async (req: Request, res: Response): Promise<void> => 
         }
 
         const newGame = new Game({
-            player1
+            player1,
+            gameName: gameName || `Game-${Date.now()}`, // Default game name if not provided
         });
 
         await newGame.save();
