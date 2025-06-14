@@ -3,33 +3,53 @@ import { createGame, joinGame } from "../api";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateJoinGame() {
-    const { playerName } = usePlayerContext()
-    const player1 = playerName || 'Anonymous';
+    const { playerData, updatePlayerData } = usePlayerContext()
     const navigate = useNavigate();
 
-    const handleCreateGame = (e) => {
+    const handleCreateGame = async (e) => {
         e.preventDefault();
-        const gameName = e.target.gameName.value.trim();
+        let gameName = e.target.gameName.value.trim();
         const password = e.target.password.value.trim();
-        if (gameName) {
-            const game = createGame(gameName, player1);
 
-            console.log(`Creating game: ${gameName} with password: ${password}(Not yet implemented)`);
-            e.target.reset(); 
-            navigate('/play');
+        if (!playerName){
+            alert('Please enter your name before creating a game.');
+            return;
         }
+
+        if (!gameName){
+            gameName = `Game-${Date.now()}`
+        }
+
+        const game =  createGame(gameName, playerData.player1); // add await on prod
+        const gameId = game._id;
+        localStorage.setItem('gameId', gameId);
+
+        updatePlayerData({ gameId: gameId });
+
+        console.log(`Creating game with player: ${playerData.player1} with id: ${gameId}`);
+        e.target.reset(); 
+        navigate('/play');
     }
 
-    const handleJoinGame = (e) => {
+    const handleJoinGame = async (e) => {
         e.preventDefault();
-        const player2 = player1;
+        const player2 = localStorage.getItem('playerName');
+        if(!player2){
+            player2 = playerData.player1
+        }
+        
+        console.log(player2);
+
+        if (!playerName){
+            alert('Please enter your name before creating a game.');
+            return;
+        }
+
         if (player2) {
-            const game = joinGame(player2);
+            const game =  joinGame(player2); // add await on prod
 
             console.log(`Joining game: as ${player2}`);
             e.target.reset();
-
-            // dont send the player yet unlike create game
             
             navigate('/play'); // Redirect to the Play page after joining
         }

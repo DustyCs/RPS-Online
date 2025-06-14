@@ -6,23 +6,23 @@ export default function ChangePlayerName() {
       e.preventDefault();
       const newName = e.target.playerName.value.trim();
       if (newName) {
-        updatePlayerData({ playerName: newName });
+        updatePlayerData({ player1: newName });
         localStorage.setItem('playerName', newName);
         console.log(`Player name changed to: ${newName}`);
-        e.target.reset(); // Clear the input field after submission
+        e.target.reset();
       }
   }
   return (
     <div>
         <h2 className="text-2xl font-bold mb-4">Change Player Name</h2>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-            <label htmlFor="playerName" className="text-lg">Player Name:</label>
+            <label htmlFor="playerName" className="text-lg">Player Name: {localStorage.getItem('playerName')  ? localStorage.getItem('playerName') : 'Enter Name'}</label>
             <input
             type="text"
             id="playerName"
             name="playerName"
             className="border border-gray-300 rounded p-2"
-            placeholder="Player Name"
+            placeholder="Change Name"
             />
             <button
             type="submit"

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 
+import { submitMove, getGameStatus } from "../api";
 
 import Fist from '../../../assets/fists/fist.png'
 import Rock from '../../../assets/imgs/stone.png'
@@ -14,10 +15,15 @@ export default function PlayerInterface() {
         { name: 'Scissors', img: Scissors },
     ];
 
-    const FistIMG = Fist
+    const FistIMG = Fist /// unnecessary
+
     const [selectedChoice, setSelectedChoice] = useState(null);
     const [enemyChoice, setEnemyChoice] = useState(null);
+    const [winner, setWinner] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    const playerName = localStorage.getItem('playerName');
+    const gameId = localStorage.getItem('gameId');
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -27,9 +33,68 @@ export default function PlayerInterface() {
         return () => clearTimeout(timer);
     }, []);
 
+    useEffect(() => {
+        if (selectedChoice && gameId && playerName){
+            const submit = async () => {
+                try {
+                    const response = await submitMove(gameId, playerName, selectedChoice.name);
+                    console.log('Move submitted', response);
+                } catch (error) {
+                    console.error('Error submitting move:', error);
+                }
+            }
+
+            submit();
+        }
+    }, [selectedChoice]);
+
+    // useEffect(() => {
+    //     if (selectedChoice) {
+    //         const gameId = localStorage.getItem('gameId');
+    //         const playerName = localStorage.getItem('playerName');
+    //         const res = submitMove(gameId, playerName, selectedChoice.name);
+    //         console.log(res);
+    //     }
+
+    // }, [selectedChoice]);
+
+    // Poll
+    useEffect(() => {
+        if (!selectedChoice) return;
+
+        const interval = setInterval(async () => {
+            try {
+                const response = await getGameStatus(gameId);
+                console.log('Polling for game status', response);
+
+                if(response.winner){
+                    const opponentChoice = 
+                        playerName === response.player1 
+                            ? response.player2_choice 
+                            : response.player1_choice;
+                    setEnemyChoice(opponentChoice);
+                    setWinner(response.winner);
+                    clearInterval(interval);
+                }
+            } catch (error) {
+                console.error('Error fetching game status:', error);
+            }
+        }, 2000);
+
+        return () => clearInterval(interval);
+    }, [selectedChoice]);
+
+    const handleChoice = (choice) => {
+        if (!selectedChoice) {
+            setSelectedChoice(choice);
+            console.log(`Selected ${choice.name}`);
+        }
+    }
+
   return (
     <>  
         <div className={loading ? 'flex items-center bg-amber-50 justify-center w-full h-full' : 'relative flex items-center bg-amber-50 justify-center w-full h-full shadow-lg'}>
+                    {/* Player Hand */}
                     <motion.div className={'absolute bottom-20'}
                         initial={{ x: 0, y: 0 }}
                         animate={ loading 
@@ -58,6 +123,7 @@ export default function PlayerInterface() {
                                 : selectedChoice.name === 'Rock' ? 'rotate-0' :'rotate-90') } 
                     />
                     </motion.div>
+                    
                     {/* Enemy Hand Mirrored */}
                     <motion.div className={'absolute bottom-20'}
                         initial={{ x: 0, y: 0 }}
@@ -65,7 +131,7 @@ export default function PlayerInterface() {
                             ? { x: 0 , y: 0 } 
                             : { x: 300 , y: -100 }}
                         transition={{ duration: 0.5, ease: 'easeOut' }}>
-                        <motion.img src={ FistIMG } alt="" 
+                        <motion.img src={ enemyChoice ? choices.find(choice => choice.name === enemyChoice)?.img : Fist } alt="" 
                             initial={{ rotate: 0, scaleX: -1 }}
                             animate={ loading 
                                 ? { rotate: -360 } 
@@ -93,7 +159,7 @@ export default function PlayerInterface() {
                 ) :
                 choices.map((choice, index) => (
                     <div key={index} className='flex flex-col items-center justify-center m-4 outline'>
-                        <button className='bg-gray-200 p-2 rounded-lg hover:bg-gray-300' onClick={() => setSelectedChoice(choice)}>
+                        <button className={`bg-gray-200 p-2 rounded-lg hover:bg-gray-300 ${selectedChoice !== null ? 'opacity-50 cursor-not-allowed' : '' }`} onClick={() => handleChoice(choice)} disabled={selectedChoice !== null}>
                             <img src={choice.img} alt={choice.name} className='w-16 h-16' />
                             <span className='text-lg font-bold'>{choice.name}</span>
                         </button>
