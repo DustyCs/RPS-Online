@@ -28,7 +28,7 @@ export default function CreateJoinGame() {
 
         console.log(`Creating game with player: ${playerData.player1} with id: ${gameId}`);
         e.target.reset(); 
-        navigate('/play');
+        navigate(`/play/${gameId}`);
     }
 
     const handleJoinGame = async (e) => {
@@ -47,11 +47,13 @@ export default function CreateJoinGame() {
 
         if (player2) {
             const game = await joinGame(player2); // add await on prod
+            const gameId = game._id;
+            updatePlayerData({ gameId: gameId });
 
             console.log(`Joining game: as ${player2}`);
             e.target.reset();
             
-            navigate('/play'); // Redirect to the Play page after joining
+           navigate(`/play/${gameId}`); // Redirect to the Play page after joining
         }
     }
 

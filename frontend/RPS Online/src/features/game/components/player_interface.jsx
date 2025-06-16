@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import { useParams } from 'react-router-dom';
 
 import { submitMove, getGameStatus } from "../api";
 
@@ -7,6 +8,7 @@ import Fist from '../../../assets/fists/fist.png'
 import Rock from '../../../assets/imgs/stone.png'
 import Paper from '../../../assets/imgs/scroll.png'
 import Scissors from '../../../assets/imgs/scissors.png'
+import { usePlayerContext } from '../../../context/PlayerDataContext';
 
 export default function PlayerInterface() {
     const choices = [
@@ -16,6 +18,7 @@ export default function PlayerInterface() {
     ];
 
     const FistIMG = Fist /// unnecessary
+    const { updatePlayerData } = usePlayerContext()
 
     const [selectedChoice, setSelectedChoice] = useState(null);
     const [enemyChoice, setEnemyChoice] = useState(null);
@@ -23,7 +26,8 @@ export default function PlayerInterface() {
     const [loading, setLoading] = useState(true);
 
     const playerName = localStorage.getItem('playerName');
-    const gameId = localStorage.getItem('gameId');
+    // const gameId = localStorage.getItem('gameId');
+    const { gameId } = useParams();
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -32,6 +36,13 @@ export default function PlayerInterface() {
 
         return () => clearTimeout(timer);
     }, []);
+
+    useEffect(() => {
+        if (gameId) {
+        updatePlayerData({ gameId });
+        }
+    }, [gameId]);
+
 
     useEffect(() => {
         if (selectedChoice && gameId && playerName){

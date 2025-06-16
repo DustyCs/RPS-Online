@@ -10,7 +10,7 @@ export function AppRoutes() {
         <Routes>
             <Route element={<MainLayout />}>
                 <Route path="/" element={<MainPage />} />
-                <Route path="/play" element={<Play />} />
+                <Route path="/play/:gameId" element={<Play />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/credits" element={<Credits />} />
             </Route>
