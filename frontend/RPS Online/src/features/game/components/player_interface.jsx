@@ -48,16 +48,6 @@ export default function PlayerInterface() {
         }
     }, [selectedChoice]);
 
-    // useEffect(() => {
-    //     if (selectedChoice) {
-    //         const gameId = localStorage.getItem('gameId');
-    //         const playerName = localStorage.getItem('playerName');
-    //         const res = submitMove(gameId, playerName, selectedChoice.name);
-    //         console.log(res);
-    //     }
-
-    // }, [selectedChoice]);
-
     // Poll
     useEffect(() => {
         if (!selectedChoice) return;

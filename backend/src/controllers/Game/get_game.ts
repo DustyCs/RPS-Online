@@ -5,10 +5,12 @@ export const getGameStatus = async (req: Request, res: Response) => {
         const game = await Game.findById(req.params.id);
         if (!game) {
             res.status(404).json({ message: "Game not found" });
+            console.log('Game not found');
             return;
         }
 
         res.json(game);
+        console.log(`Fetching game status for game ${game._id}`);
     } catch (error) {
         console.error('Error fetching game status:', error);
         res.status(500).json({ error: 'Internal server error' });

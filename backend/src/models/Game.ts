@@ -4,8 +4,8 @@ const gameSchema = new mongoose.Schema({
     gameName: { type: String, unique: true },
     player1: { type: String, required: true },
     player2: { type: String },
-    player1_choice: { type: String, enum: ['rock', 'paper', 'scissors', null], default: null},
-    player2_choice: { type: String, enum: ['rock', 'paper', 'scissors', null], default: null},
+    player1_choice: { type: String, enum: ['Rock', 'Raper', 'Scissors', null], default: null},
+    player2_choice: { type: String, enum: ['Rock', 'Paper', 'Scissors', null], default: null},
     winner: { type: String, default: null },
 }, { timestamps: true });
 

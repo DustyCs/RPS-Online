@@ -17,6 +17,7 @@ export const createGame = async (req: Request, res: Response): Promise<void> => 
 
         await newGame.save();
         res.status(201).json(newGame);
+        console.log(`Creating game`, newGame);
         return 
     } catch (error) {
         console.error('Error creating game:', error);

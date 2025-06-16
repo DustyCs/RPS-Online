@@ -11,7 +11,7 @@ export default function CreateJoinGame() {
         let gameName = e.target.gameName.value.trim();
         const password = e.target.password.value.trim();
 
-        if (!playerName){
+        if (!playerData.player1){
             alert('Please enter your name before creating a game.');
             return;
         }
@@ -20,7 +20,7 @@ export default function CreateJoinGame() {
             gameName = `Game-${Date.now()}`
         }
 
-        const game =  createGame(gameName, playerData.player1); // add await on prod
+        const game = await createGame (playerData.player1, gameName); // add await on prod
         const gameId = game._id;
         localStorage.setItem('gameId', gameId);
 
@@ -33,7 +33,7 @@ export default function CreateJoinGame() {
 
     const handleJoinGame = async (e) => {
         e.preventDefault();
-        const player2 = localStorage.getItem('playerName');
+        let player2 = localStorage.getItem('playerName');
         if(!player2){
             player2 = playerData.player1
         }
@@ -46,7 +46,7 @@ export default function CreateJoinGame() {
         }
 
         if (player2) {
-            const game =  joinGame(player2); // add await on prod
+            const game = await joinGame(player2); // add await on prod
 
             console.log(`Joining game: as ${player2}`);
             e.target.reset();

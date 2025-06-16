@@ -10,6 +10,6 @@ const options = {
     socketTimeoutMS: 45000,
   };
   
-// console.log("Connecting to MongoDB...", DB_URI);
-// db_connect(DB_URI, options);
+console.log("Connecting to MongoDB...", DB_URI);
+db_connect(DB_URI, options);
 

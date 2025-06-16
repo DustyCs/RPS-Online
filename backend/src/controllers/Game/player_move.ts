@@ -13,40 +13,49 @@ import { Request, Response } from 'express';
 function determineWinner(choice1: string, choice2: string, player1: string, player2: string): string {
     if (choice1 === choice2) return 'draw';
     if (
-        (choice1 === 'rock' && choice2 === 'scissors') ||
-        (choice1 === 'paper' && choice2 === 'rock') ||
-        (choice1 === 'scissors' && choice2 === 'paper')
+        (choice1 === 'Rock' && choice2 === 'Scissors') ||
+        (choice1 === 'Paper' && choice2 === 'Rock') || // this should have been non case sensitive and should have been handled properly... same in the model
+        (choice1 === 'Scissors' && choice2 === 'Paper')
     ) return player1;
     return player2;
 }
 
 export const playerMove = async (req: Request, res: Response): Promise<void> => {
-    const { gameId, player, choice } = req.body;
 
-    const game = await Game.findById(gameId);
-    if (!game)
-        {
-            res.status(404).json({ message: "Game not found" });
+    try{
+        const { gameId, player, choice } = req.body;
+
+        const game = await Game.findById(gameId);
+        if (!game)
+            {
+                res.status(404).json({ message: "Game not found" });
+                return;
+            }
+
+        console.log("Player move:", player, choice);
+
+        if (game.player1 === player) {
+            game.player1_choice = choice
+        }
+        else if (game.player2 === player) {
+            game.player2_choice = choice
+        }
+        else {
+            res.status(403).json({ message: "You are not part of this game" });
             return;
+        }   
+        await game.save();
+
+        // Check if both players have played
+        if (game.player1_choice && game.player2_choice && game.player1 && game.player2) {
+            game.winner = determineWinner(game.player1_choice, game.player2_choice, game.player1, game.player2);
+            console.log("Winner:", game.winner);
+            await game.save();
         }
 
-    if (game.player1 === player) {
-        game.player1_choice = choice
+        res.json(game);
+    } catch (error) {
+        console.error('Error creating game:', error);
+        res.status(500).json({ error: 'Internal server error' });
     }
-    else if (game.player2 === player) {
-        game.player2_choice = choice
-    }
-    else {
-        res.status(403).json({ message: "You are not part of this game" });
-        return;
-    }   
-    await game.save();
-
-    // Check if both players have played
-    if (game.player1_choice && game.player2_choice && game.player1 && game.player2) {
-        game.winner = determineWinner(game.player1_choice, game.player2_choice, game.player1, game.player2);
-        await game.save();
-    }
-
-    res.json(game);
 }
