@@ -147,7 +147,9 @@ export default function PlayerInterface() {
                                     ? { duration: 1, repeat: Infinity, ease: 'easeOut' } 
                                     : { duration: 0.3, ease: 'easeOut' }
                                 }
-                            className={ 'w-50 h-50 ' + (loading ? 'rotate-0' : '-rotate-90') } 
+                            className={ 'w-50 h-50 ' + (loading 
+                                ? 'rotate-0' 
+                                : selectedChoice.name === 'Rock' ? 'rotate-0' :'rotate-90') } 
                     />
                     </motion.div>
         </div>
