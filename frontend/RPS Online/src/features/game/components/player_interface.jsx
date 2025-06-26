@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useParams } from 'react-router-dom';
 
-import { submitMove, getGameStatus } from "../api";
+import { submitMove, getGameStatus, closeGame } from "../api";
 
 import Fist from '../../../assets/fists/fist.png'
 import Rock from '../../../assets/imgs/stone.png'
@@ -41,6 +41,24 @@ export default function PlayerInterface() {
         if (gameId) {
         updatePlayerData({ gameId });
         }
+    }, [gameId]);
+
+    // Handle player leave to close the game
+    useEffect(() => {
+        const handleBeforeUnload = (e) => {
+            // Send the close request
+            closeGame(gameId).catch(console.error);
+            // Optionally: show a confirmation
+            // e.preventDefault();
+            // e.returnValue = '';
+            };
+    
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+            closeGame(gameId).catch(console.error); // Clean up
+        };
     }, [gameId]);
 
 
@@ -149,7 +167,7 @@ export default function PlayerInterface() {
                                 }
                             className={ 'w-50 h-50 ' + (loading 
                                 ? 'rotate-0' 
-                                : selectedChoice.name === 'Rock' ? 'rotate-0' :'rotate-90') } 
+                                : '-rotate-90') } 
                     />
                     </motion.div>
         </div>

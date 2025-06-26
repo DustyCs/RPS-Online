@@ -3,7 +3,7 @@ import { createGame} from '../controllers/Game/create_game';
 import { joinGame } from '../controllers/Game/join_game';
 import { playerMove } from '../controllers/Game/player_move';
 import { gameWinner } from '../controllers/Game/game_winner';
-import { getGameStatus } from '../controllers/Game/get_game';
+import { getAllOpenGames, getGameStatus } from '../controllers/Game/get_game';
 import { Router } from 'express';
 
 const router: Router = express.Router();
@@ -12,8 +12,10 @@ router.post('/create', createGame);
 router.post('/join', joinGame);
 
 router.post('/move', playerMove);
+router.post('/close', playerMove);
 
 router.get('/winner', gameWinner);
+router.get('/games', getAllOpenGames);
 router.get('/status/:id', getGameStatus);
 
 export const GameRouter: Router = router;

@@ -49,6 +49,7 @@ export const playerMove = async (req: Request, res: Response): Promise<void> => 
         // Check if both players have played
         if (game.player1_choice && game.player2_choice && game.player1 && game.player2) {
             game.winner = determineWinner(game.player1_choice, game.player2_choice, game.player1, game.player2);
+            game.isClosed = true; // close game
             console.log("Winner:", game.winner);
             await game.save();
         }
@@ -58,4 +59,15 @@ export const playerMove = async (req: Request, res: Response): Promise<void> => 
         console.error('Error creating game:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
+}
+
+export const closeGameOnLeave = async (req: Request, res: Response) => {
+    const { gameId } = req.body;
+    const game = await Game.findById(gameId);
+
+    if (!game) return;
+
+    game.isClosed = true;
+    await game.save();
+    res.status(200).json({ message: "Game closed" });
 }

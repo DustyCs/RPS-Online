@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import helmet from 'helmet';
 import './database'; // Initialize database connection
+import './utils/close_games'; // Schedule cleanup job
 import { MainRouter } from './routes';
 import cookieParser from 'cookie-parser';
 

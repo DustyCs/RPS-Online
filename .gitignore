@@ -7,3 +7,6 @@
 */coverage
 
 */*/.env
+
+
+*/*/firebase.config.js

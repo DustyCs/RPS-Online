@@ -11,5 +11,7 @@ const options = {
   };
   
 console.log("Connecting to MongoDB...", DB_URI);
+console.log(`Using Mongo URI: ${process.env.MONGODB_URI}`);
+
 db_connect(DB_URI, options);
 
