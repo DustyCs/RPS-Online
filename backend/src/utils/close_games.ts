@@ -20,5 +20,7 @@ async function closeExpiredGames() {
   }
 }
 
+closeExpiredGames();
+
 // Schedule the periodic job
 setInterval(closeExpiredGames, CLEANUP_INTERVAL);
