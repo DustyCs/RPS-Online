@@ -1,12 +1,33 @@
+import { joinGame } from "../features/main/api";
+
 export default function Navbar() {
-  const handleJoinGame = (e) => {
+  const handleJoinGame = async (e) => {
           e.preventDefault();
-          const player2 = player1;
-          if (player2) {
-              const game = joinGame(player2);
+          let player2 = localStorage.getItem('playerName');
+          if(!player2){
+              player2 = playerData.player1
+          }
+          
+          console.log(player2);
   
-              console.log(`Joining game: as ${player2}`);
-              e.target.reset(); // Clear the input fields after submission
+          if (!playerName){
+              alert('Please enter your name before creating a game.');
+              return;
+          }
+  
+          if (player2) {
+              try {
+                const game = await joinGame(player2); // add await on prod
+                const gameId = game._id;
+                updatePlayerData({ gameId: gameId });
+    
+                console.log(`Joining game: as ${player2}`);
+                e.target.reset();
+                
+                navigate(`/play/${gameId}`); // Redirect to the Play page after joining
+              } catch (error) {
+                console.error('Error joining game:', error);
+              }
           }
       }
 
@@ -18,7 +39,7 @@ export default function Navbar() {
         </div>
         <nav >
             <ul className="flex space-x-6">
-                <li className="text-3xl font-bold"><a href="/play">Play</a></li> {/* Need to quick join game when pressing play */}
+                <li className="text-3xl font-bold cursor-pointer"><a onClick={handleJoinGame}>Play</a></li> {/* Need to quick join game when pressing play */}
                 <li className="text-3xl font-bold"><a href="/about">About</a></li>
                 <li className="text-3xl font-bold"><a href="/credits">Credits</a></li>
             </ul>
