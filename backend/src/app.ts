@@ -11,6 +11,8 @@ dotenv.config();
 
 const app = express();
 
+console.log("Server started... trying to run")
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
