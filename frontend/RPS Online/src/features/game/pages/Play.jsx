@@ -10,7 +10,3 @@ export default function Play() {
     </div>
   )
 }
-
-// to do
-
-// THERE IS NOW WAY TOO MANY OPEN GAMES... WITH NO PLAYERS CLOSE IT

@@ -13,7 +13,7 @@ export default function ChangePlayerName() {
       }
   }
   return (
-    <div>
+    <div className="flex flex-col self-center">
         <h2 className="text-2xl font-bold mb-4">Change Player Name</h2>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <label htmlFor="playerName" className="text-lg">Player Name: {localStorage.getItem('playerName')  ? localStorage.getItem('playerName') : 'Enter Name'}</label>

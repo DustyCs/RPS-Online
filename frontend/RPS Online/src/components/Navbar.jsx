@@ -32,18 +32,29 @@ export default function Navbar() {
       }
 
   return (
-    <div className="w-full h-16 bg-gray-800 shadow-2xl gap-15 text-white p-4 flex justify-center items-center">
-        <div>
-            <h1 className="text-4xl font-extrabold cursor-pointer" onClick={() => window.location.href = "/"}>RPS Online</h1>
-            <p className="text-sm pl-5">Rock, Paper, Scissors</p>
-        </div>
-        <nav >
-            <ul className="flex space-x-6">
-                <li className="text-3xl font-bold cursor-pointer"><a onClick={handleJoinGame}>Play</a></li> {/* Need to quick join game when pressing play */}
-                <li className="text-3xl font-bold"><a href="/about">About</a></li>
-                <li className="text-3xl font-bold"><a href="/credits">Credits</a></li>
-            </ul>
-        </nav>
-    </div>
+    <header className="w-full bg-gray-800 shadow-2xl text-white p-4 flex flex-col sm:flex-row sm:justify-center justify-between items-center gap-4 sm:gap-8">
+      <div className="text-center sm:text-left">
+        <h1
+          className="text-2xl sm:text-3xl lg:text-4xl font-extrabold cursor-pointer"
+          onClick={() => (window.location.href = "/")}
+        >
+          RPS Online
+        </h1>
+        <p className="text-xs sm:text-sm pl-0 sm:pl-2">Rock, Paper, Scissors</p>
+      </div>
+      <nav>
+        <ul className="flex flex-wrap justify-center sm:justify-between gap-4 sm:gap-6">
+          <li className="text-lg sm:text-2xl font-bold cursor-pointer">
+            <a onClick={handleJoinGame}>Play</a>
+          </li>
+          <li className="text-lg sm:text-2xl font-bold">
+            <a href="/about">About</a>
+          </li>
+          <li className="text-lg sm:text-2xl font-bold">
+            <a href="/credits">Credits</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
   )
 }
