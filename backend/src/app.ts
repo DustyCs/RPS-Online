@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(cors({
-    origin: 'https://rockpaperscissors-online.web.app',
+    origin: ['https://rockpaperscissors-online.web.app', 'http://localhost:5173'],
     credentials: true
 }));
 
