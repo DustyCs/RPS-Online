@@ -111,82 +111,125 @@ export default function PlayerInterface() {
     }
 
   return (
-    <>  
-        <div className={loading ? 'flex items-center bg-amber-50 justify-center w-full h-full' : 'relative flex items-center bg-amber-50 justify-center w-full h-full shadow-lg'}>
-                    {/* Player Hand */}
-                    <motion.div className={'absolute bottom-20'}
-                        initial={{ x: 0, y: 0 }}
-                        animate={ loading 
-                        ? { x:0 , y: 0 } 
-                        : { x:-300 ,y: -100 }}
-                        transition={{ duration: 0.5, ease: 'easeOut' }}>
-                        <motion.img src={selectedChoice === null ? FistIMG : selectedChoice.img} alt="" 
-                            initial={{ rotate: 0 }}
-                            animate={ loading 
-                                ? { rotate: 360 } 
-                                : selectedChoice === null
-                                    ? { rotate: [0, -90, 0] } 
-                                    : { rotate: 0 } 
-                                }
-                            transition={ 
-                                loading 
-                                ? { duration: 1, repeat: Infinity, ease: 'linear' } 
-                                : selectedChoice === null
-                                    ? { duration: 1, repeat: Infinity, ease: 'easeOut' } 
-                                    : { duration: 0.3, ease: 'easeOut' } 
-                                }
-                            className={ 'w-50 h-50 ' + (loading 
-                                ? 'rotate-0'
-                                : selectedChoice === null
-                                    ? 'rotate-90' 
-                                : selectedChoice.name === 'Rock' ? 'rotate-0' :'rotate-90') } 
-                    />
-                    </motion.div>
-                    
-                    {/* Enemy Hand Mirrored */}
-                    <motion.div className={'absolute bottom-20'}
-                        initial={{ x: 0, y: 0 }}
-                        animate={ loading 
-                            ? { x: 0 , y: 0 } 
-                            : { x: 300 , y: -100 }}
-                        transition={{ duration: 0.5, ease: 'easeOut' }}>
-                        <motion.img src={ enemyChoice ? choices.find(choice => choice.name === enemyChoice)?.img : Fist } alt="" 
-                            initial={{ rotate: 0, scaleX: -1 }}
-                            animate={ loading 
-                                ? { rotate: -360 } 
-                                : enemyChoice === null
-                                    ? { rotate: [0, -90, 0] } 
-                                    : { rotate: 0 } 
-                                }
-                            transition={ 
-                                loading 
-                                ? { duration: 1, repeat: Infinity, ease: 'linear' } 
-                                : enemyChoice === null
-                                    ? { duration: 1, repeat: Infinity, ease: 'easeOut' } 
-                                    : { duration: 0.3, ease: 'easeOut' }
-                                }
-                            className={ 'w-50 h-50 ' + (loading 
-                                ? 'rotate-0' 
-                                : '-rotate-90') } 
-                    />
-                    </motion.div>
-        </div>
-        <div className=' flex w-1/2 items-center justify-center h-[25%] bg-gray-300 rounded-b-md outline-amber-50 outline-2 '>  
-            {
-                loading ? (
-                    <div>
-                        <p className='text-center text-8xl font-bold'>Loading...</p>
-                    </div>
-                ) :
-                choices.map((choice, index) => (
-                    <div key={index} className='flex flex-col items-center justify-center m-4 outline'>
-                        <button className={`bg-gray-200 p-2 rounded-lg hover:bg-gray-300 ${selectedChoice !== null ? 'opacity-50 cursor-not-allowed' : '' }`} onClick={() => handleChoice(choice)} disabled={selectedChoice !== null}>
-                            <img src={choice.img} alt={choice.name} className='w-16 h-16' />
-                            <span className='text-lg font-bold'>{choice.name}</span>
-                        </button>
-                    </div>
-                ))
+    <>
+        {/* Arena */}
+        <div
+            className={
+                loading
+                ? "flex items-center bg-amber-50 justify-center w-full min-h-[60vh]"
+                : "relative flex items-center bg-amber-50 justify-center w-full min-h-[60vh] shadow-lg"
+        }
+        >
+        {/* Player Hand */}
+        <motion.div
+            className="absolute bottom-10 sm:bottom-20"
+            initial={{ x: 0, y: 0 }}
+            animate={
+            loading ? { x: 0, y: 0 } : { x: -120, y: -80 } // smaller shift for mobile
             }
+            transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+            <motion.img
+            src={selectedChoice === null ? FistIMG : selectedChoice.img}
+            alt=""
+            initial={{ rotate: 0 }}
+            animate={
+                loading
+                ? { rotate: 360 }
+                : selectedChoice === null
+                ? { rotate: [0, -90, 0] }
+                : { rotate: 0 }
+            }
+            transition={
+                loading
+                ? { duration: 1, repeat: Infinity, ease: "linear" }
+                : selectedChoice === null
+                ? { duration: 1, repeat: Infinity, ease: "easeOut" }
+                : { duration: 0.3, ease: "easeOut" }
+            }
+            className={
+                "w-28 h-28 sm:w-40 sm:h-40 md:w-52 md:h-52 " +
+                (loading
+                ? "rotate-0"
+                : selectedChoice === null
+                ? "rotate-90"
+                : selectedChoice.name === "Rock"
+                ? "rotate-0"
+                : "rotate-90")
+            }
+            />
+        </motion.div>
+
+        {/* Enemy Hand */}
+        <motion.div
+            className="absolute bottom-10 sm:bottom-20"
+            initial={{ x: 0, y: 0 }}
+            animate={
+            loading ? { x: 0, y: 0 } : { x: 120, y: -80 } // mirror smaller shift
+            }
+            transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+            <motion.img
+            src={
+                enemyChoice
+                ? choices.find((choice) => choice.name === enemyChoice)?.img
+                : Fist
+            }
+            alt=""
+            initial={{ rotate: 0, scaleX: -1 }}
+            animate={
+                loading
+                ? { rotate: -360 }
+                : enemyChoice === null
+                ? { rotate: [0, -90, 0] }
+                : { rotate: 0 }
+            }
+            transition={
+                loading
+                ? { duration: 1, repeat: Infinity, ease: "linear" }
+                : enemyChoice === null
+                ? { duration: 1, repeat: Infinity, ease: "easeOut" }
+                : { duration: 0.3, ease: "easeOut" }
+            }
+            className={
+                "w-28 h-28 sm:w-40 sm:h-40 md:w-52 md:h-52 " +
+                (loading ? "rotate-0" : "-rotate-90")
+            }
+            />
+        </motion.div>
+        </div>
+
+        {/* Controls */}
+        <div className="flex sm:flex-row flex-wrap w-full sm:w-3/4 items-center justify-center min-h-[25vh] bg-gray-300 rounded-b-md outline-amber-50 outline-2 p-4 gap-4">
+        {loading ? (
+            <p className="text-center text-4xl sm:text-6xl md:text-8xl font-bold">
+            Loading...
+            </p>
+        ) : (
+            choices.map((choice, index) => (
+            <div
+                key={index}
+                className="flex flex-col items-center justify-center"
+            >
+                <button
+                className={`bg-gray-200 p-2 rounded-lg hover:bg-gray-300 ${
+                    selectedChoice !== null ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                onClick={() => handleChoice(choice)}
+                disabled={selectedChoice !== null}
+                >
+                <img
+                    src={choice.img}
+                    alt={choice.name}
+                    className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20"
+                />
+                <span className="text-sm sm:text-lg font-bold">
+                    {choice.name}
+                </span>
+                </button>
+            </div>
+            ))
+        )}
         </div>
     </>
     
